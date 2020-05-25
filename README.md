@@ -15,7 +15,11 @@ single-node Nextcloud deployment at DigitalOcean:
 # Usage
 TODO: improve this section.
 * Install `Terraform`
-* Install the `DigitalOcean` Terraform provider
+    * https://learn.hashicorp.com/terraform/getting-started/install
+* Install the `DigitalOcean` Terraform provider:
+    ```
+    terraform init
+    ```
 * Copy `tfvars.example` to `terraform.tfvars` in the project directory
 * Fill in the specified variables in `terraform.tfvars`
 * Run `terraform apply`
