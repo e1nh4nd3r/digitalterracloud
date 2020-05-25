@@ -1,0 +1,5 @@
+# Ignore these files/directories
+.atom/
+*.tfvars
+*.tfstate
+*.tfstate.backup
