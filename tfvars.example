@@ -3,3 +3,4 @@ do_ssh_fingerprint = ["00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00"]
 do_region = "DO_REGION"
 nextcloud_subdomain_name = "subdomain"
 nextcloud_root_domain_name = "example.com"
+nextcloud_full_fqdn = "subdomain.example.com"
