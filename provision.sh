@@ -15,9 +15,3 @@ snap install nextcloud
 
 # reboot container to apply latest kernel
 shutdown -r now
-
-# install docker
-# curl -sSL https://get.docker.com/ubuntu/ | sudo sh
-
-# print docker version
-# docker version
