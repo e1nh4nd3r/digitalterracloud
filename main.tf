@@ -5,6 +5,9 @@ variable "do_ssh_fingerprint" {}
 variable "do_region" {}
 variable "nextcloud_subdomain_name" {}
 variable "nextcloud_root_domain_name" {}
+variable "nextcloud_full_fqdn" {
+  type = string
+}
 
 # Configure the DigitalOcean Provider
 provider "digitalocean" {
@@ -46,7 +49,7 @@ resource "digitalocean_droplet" "nextcloud" {
 resource "digitalocean_certificate" "nextcloud-cert" {
   name    = "le-nextcloud"
   type    = "lets_encrypt"
-  domains = [var.nextcloud_subdomain_name]
+  domains = [var.nextcloud_full_fqdn]
 }
 
 # Attach the volume
