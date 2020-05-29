@@ -1,4 +1,4 @@
-# DigitalOcean + Terraform == Nextcloud (DigitalTerraCloud?)
+# DigitalOcean + Terraform + Nextcloud == DigitalTerraCloud
 
 ## Overview
 I got tired of having an over-heated toaster-box and Dynamic DNS on my home
