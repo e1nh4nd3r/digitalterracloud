@@ -40,10 +40,6 @@ resource "digitalocean_droplet" "nextcloud" {
   ipv6               = false
   private_networking = true
   tags               = [digitalocean_tag.nextcloud-tag.id]
-
-  # provisioner "remote exec" {
-  #   script = "provision.sh"
-  # }
 }
 
 # Instantiate a LetsEncrypt certificate
