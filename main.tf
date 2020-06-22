@@ -3,6 +3,7 @@
 variable "do_token" {}
 variable "do_ssh_fingerprint" {}
 variable "do_region" {}
+variable "do_image_name" {}
 variable "nextcloud_subdomain_name" {}
 variable "nextcloud_root_domain_name" {}
 variable "nextcloud_full_fqdn" {
@@ -31,7 +32,7 @@ resource "digitalocean_volume" "nextcloud-data" {
 
 # Create a web server
 resource "digitalocean_droplet" "nextcloud" {
-  image              = "ubuntu-20-04-x64"
+  image              = var.do_image_name
   name               = "nextcloud"
   region             = var.do_region
   size               = "s-2vcpu-2gb"
