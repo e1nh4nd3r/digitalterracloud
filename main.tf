@@ -6,9 +6,15 @@ variable "do_region" {}
 variable "do_image_name" {}
 variable "nextcloud_subdomain_name" {}
 variable "nextcloud_root_domain_name" {}
-variable "nextcloud_full_fqdn" {
-  type = string
-}
+# variable "nextcloud_full_fqdn" {
+#   type = string
+# }
+# variable "root_domain_name_addr1" {
+#   type = string
+# }
+# variable "root_domain_name_addr2" {
+#   type = string
+# }
 
 # Configure the DigitalOcean Provider
 provider "digitalocean" {
@@ -77,15 +83,10 @@ resource "digitalocean_loadbalancer" "nextcloud-lb" {
     protocol = "tcp"
   }
 
-  # comma-delimit the list below if adding more/different droplets
-  # droplet_ids = [digitalocean_droplet.nextcloud.id]
-
-  # TODO: Check out using tags instead of droplet_ids
   droplet_tag = digitalocean_tag.nextcloud-tag.id
 }
 
 # Create a firewall
-## TODO: Figure out how to apply public vs. private
 resource "digitalocean_firewall" "nextcloud-fw" {
   name                      = "only-22-and-80"
   tags                      = [digitalocean_tag.nextcloud-tag.id]
@@ -116,15 +117,52 @@ resource "digitalocean_firewall" "nextcloud-fw" {
   }
 
   outbound_rule {
+    protocol              = "tcp"
+    port_range            = "80"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  outbound_rule {
+    protocol              = "tcp"
+    port_range            = "443"
+    destination_addresses = ["0.0.0.0/0", "::/0"]
+  }
+
+  outbound_rule {
     protocol              = "icmp"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
 }
 
-# Create the domain record
-resource "digitalocean_record" "nextcloud-dns" {
-  domain = var.nextcloud_root_domain_name
-  type   = "A"
-  name   = var.nextcloud_subdomain_name
-  value  = digitalocean_loadbalancer.nextcloud-lb.ip
-}
+# TODO: Figure out how digitalocean_record resources work so that it doesn't create duplicate records.
+#       Bug filed: https://github.com/terraform-providers/terraform-provider-digitalocean/issues/456
+
+# DISABLE management of DNS resources and variables for now.
+# resource "digitalocean_domain" "root_domain" {
+#   name = var.nextcloud_root_domain_name
+# }
+
+# resource "digitalocean_record" "root_domain1" {
+#   domain = var.nextcloud_root_domain_name
+#   type   = "A"
+#   name   = "@"
+#   value  = var.root_domain_name_addr1
+#   ttl    = 300
+# }
+
+# resource "digitalocean_record" "root_domain2" {
+#   domain = var.nextcloud_root_domain_name
+#   type   = "A"
+#   name   = "@"
+#   value  = var.root_domain_name_addr2
+#   ttl    = 300
+# }
+
+# # Create the subdomain record
+# resource "digitalocean_record" "nextcloud" {
+#   domain = var.nextcloud_root_domain_name
+#   type   = "A"
+#   name   = var.nextcloud_subdomain_name
+#   value  = digitalocean_loadbalancer.nextcloud-lb.ip
+#   ttl    = 300
+# }

@@ -2,5 +2,4 @@
 .atom/
 .terraform
 *.tfvars
-*.tfstate
-*.tfstate.backup
+*tfstate*
