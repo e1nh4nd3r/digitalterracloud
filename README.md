@@ -1,4 +1,4 @@
-# DigitalOcean + Terraform == Nextcloud (DigitalTerraCloud?)
+# DigitalOcean + Terraform + Nextcloud == DigitalTerraCloud
 
 ## Overview
 I got tired of having an over-heated toaster-box and Dynamic DNS on my home
@@ -12,16 +12,31 @@ single-node Nextcloud deployment at DigitalOcean:
 * `DigitalOcean` (https://www.digitalocean.com)
 * `Nextcloud` (https://www.nextcloud.com)
 
-# Usage
+## Usage
 TODO: improve this section.
 * Install `Terraform`
-* Install the `DigitalOcean` Terraform provider
+    * https://learn.hashicorp.com/terraform/getting-started/install
+* Install the `DigitalOcean` Terraform provider:
+    ```
+    terraform init
+    ```
 * Copy `tfvars.example` to `terraform.tfvars` in the project directory
 * Fill in the specified variables in `terraform.tfvars`
 * Run `terraform apply`
 * _**PROFIT**_ (or whatever)
 
-# Acknowledgments
+## TODO
+* Fix DNS management via the `digitalocean_record` and `digitalocean_domain` resources
+* Create a Packer image that comes with Nextcloud pre-installed as a Snap (or whatever's appropriate)
+  * re: the above, also pre-enable the `removable-media` snap config and pre-configure the data dir on the data volume
+  * example snap command: `snap connect nextcloud:removable-media`
+* Figure out how to automatically create backups and a backup schedule of the data volume created for the DO instance
+* Figure out whether to funnel SSH through the LB or not (I'm personally leaning toward `yes` on this -e1n)
+* Expose (or pre-configure) the data volume location for Nextcloud
+  * Exposing the volume's mount-point at the end of `terraform apply` allows the user to configure the data location manually
+  * Also allows the user to decide how they want to take backups (if they don't want to use DigitalOcean's volume backup mechanisms)
+
+## Acknowledgments
 Big thanks to `tnorris` ([GitHub](https://github.com/tnorris)) for being the best
 rubber-ducky I could ask for on a holiday weekend.
 
